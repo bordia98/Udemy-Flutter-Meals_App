@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:mealsapp/meal_item.dart';
+import './meal_item.dart';
+import './models/meal.dart';
 import './dummy_data.dart';
 
 
 class MealsScreen extends StatelessWidget {
+
+  List<Meal> available;
+
+  MealsScreen(this.available);
 
   String id;
   String title;
@@ -16,11 +21,18 @@ class MealsScreen extends StatelessWidget {
     id = arguments['id'];
     title = arguments['title'];
 
-    final categoryMeals = DUMMY_MEALS.where((meal){
-      return meal.categories.contains(id);
-      }
-    ).toList();
-    
+    List<Meal> categoryMeals;
+
+    if(available == null){
+        categoryMeals = DUMMY_MEALS.where( (meal){
+        return meal.categories.contains(id);
+      }).toList();
+    }else{
+        categoryMeals = available.where((meal){
+        return meal.categories.contains(id);
+        }
+      ).toList();
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text(
